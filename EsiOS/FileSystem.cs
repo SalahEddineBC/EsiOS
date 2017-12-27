@@ -16,6 +16,7 @@ namespace EsiOS
                     foreach(var t in Directory.GetDirectories(Kernel.current_directory))
                     {
                         Console.WriteLine("\t"+t);
+                        Console.Write("");
                     }
                     break;
                 case "cd":
