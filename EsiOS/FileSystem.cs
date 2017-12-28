@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
+using Sys = Cosmos.System;
+using Cosmos.Core;
 
 namespace EsiOS
 {
@@ -15,23 +17,48 @@ namespace EsiOS
                 case "ls":
                     foreach(var t in Directory.GetDirectories(Kernel.current_directory))
                     {
-                        Console.WriteLine("\t"+t);
-                        Console.Write("lol");
-                        
+                        Console.WriteLine("\t" + t);
                     }
                     break;
                 case "cd":
-                    if(Directory.Exists(Kernel.Args[1]))
+                    if (Kernel.Args[1] != "")
                     {
-                        Directory.SetCurrentDirectory("0:\\" + Kernel.Args[1]);
+                        if (Directory.Exists(Kernel.current_directory + Kernel.Args[1]))
+                        {
+                            Directory.SetCurrentDirectory(Kernel.current_directory + Kernel.Args[1] + "\\");
+                            Kernel.current_directory = Kernel.current_directory + Kernel.Args[1] + "\\";
+
+                        }
+                        else
+                        {
+                            Console.WriteLine("dir doesn't exist");
+                        }
                     }
                     else
                     {
-                        Console.WriteLine("dir doesn't exist");
+                        Console.WriteLine("is here");
+                        Directory.SetCurrentDirectory("0:\\");
+                        Kernel.current_directory = "0:\\";
                     }
                     break;
-
-                    
+                case "mkdir":
+                    if(!Directory.Exists(Kernel.current_directory+Kernel.Args[1]))
+                    {
+                        Kernel.vFS.CreateDirectory(Kernel.current_directory + Kernel.Args[1]);
+                    }
+                    else
+                    {
+                        Console.WriteLine("dir exist");
+                    }
+                    break;
+                case "cls":
+                    Console.Clear();
+                    break;
+                case "shutdown":
+                    break;
+                default:
+                    Console.WriteLine(Kernel.Args[0] + " doesnt exist");
+                    break;
             }
         }
     }
