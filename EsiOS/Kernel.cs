@@ -20,8 +20,9 @@ namespace EsiOS
             Console.WriteLine("Login:");
             Kernel.isLogged = false;
             vFS.CreateDirectory("0:\\x");
-
-
+            Directory.SetCurrentDirectory(current_directory);
+            vFS.CreateFile(current_directory+"test");
+          
         }
 
         protected override void Run()
@@ -29,11 +30,13 @@ namespace EsiOS
             if (!Kernel.isLogged)
             {
                 var p = new Login();
-
+                File.WriteAllText(current_directory + "test", "testtttt");
             }
             else
             {
+                Console.WriteLine(File.ReadAllText(current_directory + "test"));
                 Console.Write(">");
+                
                 var command = Console.ReadLine();
                 Kernel.Args = command.Split(' ');
                 var tt = new FileSystem();
